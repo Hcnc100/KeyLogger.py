@@ -12,7 +12,7 @@ def send_content_file(file_name, email, passwd, subject):
     msg = MIMEMultipart()
     msg[FROM] = email
     msg[TO] = email
-    msg[subject] = subject
+    msg[SUBJECT] = subject
     read_file(file_name)
     msg.attach(MIMEText(read_file(file_name)))
     server = smtplib.SMTP(SERVER_GMAIL)
