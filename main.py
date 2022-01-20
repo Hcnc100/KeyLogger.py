@@ -1,4 +1,5 @@
 import argparse
+from MainModule.InputModule import KeyIntercept
 
 parser = argparse.ArgumentParser(description="Script sencillo que captura la entrada de teclado"
                                              " del usuario, el programa se detiene cuando pulsas"
